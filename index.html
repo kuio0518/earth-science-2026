@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北市大暑期地球科學課程計畫 - 地震學、地球物理與 AI／Agent 輔助教學實作</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        earth: {
+                            50: '#f4f7f6',
+                            100: '#e2eae8',
+                            200: '#c5d6d2',
+                            300: '#9cbab4',
+                            400: '#6f9992',
+                            500: '#537d76',
+                            600: '#41635e',
+                            700: '#36514d',
+                            800: '#2e4340',
+                            900: '#293a38',
+                            950: '#142120',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                        mono: ['Space Grotesk', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #142120 0%, #2e4340 100%);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -10px rgba(41, 58, 56, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+    <!-- Header / Hero Section -->
+    <header class="hero-gradient text-white relative overflow-hidden py-16 md:py-24 px-4">
+        <!-- Abstract Background Circles -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-earth-400 rounded-full filter blur-3xl opacity-10 -mr-20 -mt-20"></div>
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500 rounded-full filter blur-3xl opacity-10 -ml-20 -mb-20"></div>
+
+        <div class="max-w-6xl mx-auto relative z-10">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-sm font-medium mb-6 animate-pulse">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                2026 暑期教師研習課程
+            </div>
+            
+            <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight mb-4">
+                北市大暑期地球科學課程計畫
+            </h1>
+            <p class="text-xl md:text-2xl text-earth-200 font-light max-w-3xl mb-8">
+                主題：地震學、地球物理與 AI／Agent 輔助教學實作
+            </p>
+
+            <!-- Quick Metadata Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-earth-700/60 text-earth-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-earth-800 flex items-center justify-center text-emerald-400">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-earth-400 uppercase tracking-wider font-semibold">課程時間</p>
+                        <p class="text-sm font-medium">2026/7/17 起，每週五</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-earth-800 flex items-center justify-center text-emerald-400">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-earth-400 uppercase tracking-wider font-semibold">課時規劃</p>
+                        <p class="text-sm font-medium">共 6 週，每次 4 小時</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-earth-800 flex items-center justify-center text-emerald-400">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-earth-400 uppercase tracking-wider font-semibold">培訓對象</p>
+                        <p class="text-sm font-medium">中小學現職教師</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-earth-800 flex items-center justify-center text-emerald-400">
+                        <i class="fa-solid fa-compass"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-earth-400 uppercase tracking-wider font-semibold">課程精神</p>
+                        <p class="text-sm font-medium">教學相長、動手做、啟發創意</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tab Bar -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 flex overflow-x-auto no-scrollbar py-1">
+            <a href="#positioning" class="px-5 py-3.5 text-sm font-medium text-gray-600 hover:text-earth-600 border-b-2 border-transparent hover:border-earth-500 whitespace-nowrap transition-all">課程定位 & 目標</a>
+            <a href="#summary-table" class="px-5 py-3.5 text-sm font-medium text-gray-600 hover:text-earth-600 border-b-2 border-transparent hover:border-earth-500 whitespace-nowrap transition-all">6 週總表</a>
+            <a href="#weeks-detail" class="px-5 py-3.5 text-sm font-medium text-gray-600 hover:text-earth-600 border-b-2 border-transparent hover:border-earth-500 whitespace-nowrap transition-all">每週詳細內容</a>
+            <a href="#workflow" class="px-5 py-3.5 text-sm font-medium text-gray-600 hover:text-earth-600 border-b-2 border-transparent hover:border-earth-500 whitespace-nowrap transition-all">每日流程 & 延伸</a>
+            <a href="#grading" class="px-5 py-3.5 text-sm font-medium text-gray-600 hover:text-earth-600 border-b-2 border-transparent hover:border-earth-500 whitespace-nowrap transition-all">評量方式</a>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-16">
+
+        <!-- section 1: Positioning and Objectives -->
+        <section id="positioning" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Card: Positioning -->
+            <div class="lg:col-span-1 bg-gradient-to-br from-earth-800 to-earth-950 text-white rounded-2xl p-8 shadow-md flex flex-col justify-between">
+                <div>
+                    <span class="text-xs uppercase font-bold tracking-widest text-emerald-400">Positioning</span>
+                    <h2 class="text-2xl font-bold mt-2 mb-4">課程定位</h2>
+                    <p class="text-earth-200 leading-relaxed text-sm mb-6">
+                        本課程以<strong>地震學與地球物理學</strong>為主軸，導入 AI／Agent 工具與雲端平台，讓教師能把學術知識轉化為可帶回學校使用的互動網頁、資料分析活動與教學專題。
+                    </p>
+                    <div class="p-4 bg-earth-900/50 rounded-xl border border-earth-700/50">
+                        <p class="text-xs text-earth-300 leading-relaxed">
+                            💡 <strong>銜接提示：</strong>本課程亦可作為開學後「地球物理學」的前導素材庫。暑期偏重教師研習與教學轉化，開學後則加深理論、數學與研究應用。
+                        </p>
+                    </div>
+                </div>
+                <div class="pt-6 border-t border-earth-800 mt-8">
+                    <span class="text-xs text-earth-400">臺北市立大學 地球科學研習</span>
+                </div>
+            </div>
+
+            <!-- Right Card: Core Objectives -->
+            <div class="lg:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-gray-200/80">
+                <span class="text-xs uppercase font-bold tracking-widest text-emerald-600">Objectives</span>
+                <h2 class="text-2xl font-bold text-gray-900 mt-2 mb-6">課程核心目標</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-xl transition-all">
+                        <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-check text-xs"></i></div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm">地科基本概念</h4>
+                            <p class="text-xs text-gray-500 mt-1">建立中小學教師對地震學與地球物理學的基本理解。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-xl transition-all">
+                        <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-check text-xs"></i></div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm">真實資料分析</h4>
+                            <p class="text-xs text-gray-500 mt-1">學會使用真實地震觀測資料進行簡單分析與教學設計。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-xl transition-all">
+                        <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-check text-xs"></i></div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm">教學教材轉化</h4>
+                            <p class="text-xs text-gray-500 mt-1">將抽像與深奧的地震學概念轉化成中小學容易理解的活動。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-xl transition-all">
+                        <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-check text-xs"></i></div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm">多元工具熟稔</h4>
+                            <p class="text-xs text-gray-500 mt-1">熟悉 GitHub, Vercel, HF, opencode, Hermes agent 等現代工具。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-xl transition-all">
+                        <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-check text-xs"></i></div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm">自動化教學管理</h4>
+                            <p class="text-xs text-gray-500 mt-1">透過 Google GWS & GAS 建立教學自動化與成果展示流程。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-xl transition-all">
+                        <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-check text-xs"></i></div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm">實踐與探究成果</h4>
+                            <p class="text-xs text-gray-500 mt-1">每週完成檢核作業，實行野外/觀測活動，產出整合教案作品。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Summary Table -->
+        <section id="summary-table" class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200/80 overflow-hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+                <div>
+                    <span class="text-xs uppercase font-bold tracking-widest text-emerald-600">Curriculum Roadmap</span>
+                    <h2 class="text-2xl font-bold text-gray-900 mt-1">6 週課程總覽與檢核表</h2>
+                </div>
+                <div class="text-xs text-gray-500 bg-gray-100 px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 self-start">
+                    <i class="fa-solid fa-circle-info"></i> 每週均含一項必備之可檢核教學成果
+                </div>
+            </div>
+
+            <!-- Responsive Table -->
+            <div class="overflow-x-auto -mx-6 md:-mx-8">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50/70 border-b border-gray-200">
+                            <th class="py-4 px-6 text-xs font-bold uppercase text-gray-600 tracking-wider w-24">週次/日期</th>
+                            <th class="py-4 px-6 text-xs font-bold uppercase text-gray-600 tracking-wider">主題</th>
+                            <th class="py-4 px-6 text-xs font-bold uppercase text-gray-600 tracking-wider">核心工具與案例</th>
+                            <th class="py-4 px-6 text-xs font-bold uppercase text-gray-600 tracking-wider">可檢核作業</th>
+                            <th class="py-4 px-6 text-xs font-bold uppercase text-gray-600 tracking-wider">檢核標準摘要</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 text-sm">
+                        <!-- Week 1 -->
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="py-4 px-6">
+                                <span class="font-bold text-gray-900 block">W1</span>
+                                <span class="text-xs text-gray-500">7/17</span>
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="font-semibold text-gray-900 block">工作流程建立</span>
+                                <span class="text-xs text-gray-500">課程介紹、帳號申請、軟體安裝</span>
+                            </td>
+                            <td class="py-4 px-6 text-xs text-gray-600">
+                                GitHub, HF, Vercel, Google GAS, opencode, Hermes agent
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="px-2.5 py-1 rounded bg-blue-50 text-blue-700 text-xs font-medium inline-block">作業 1：個人數位學習工作區</span>
+                            </td>
+                            <td class="py-4 px-6 text-xs text-gray-600">
+                                繳交帳號、GitHub Repo、GAS 執行測試與 README
+                            </td>
+                        </tr>
+                        <!-- Week 2 -->
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="py-4 px-6">
+                                <span class="font-bold text-gray-900 block">W2</span>
+                                <span class="text-xs text-gray-500">7/24</span>
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="font-semibold text-gray-900 block">地震動與震度</span>
+                                <span class="text-xs text-gray-500">地震儀原理、加速度與量化觀測</span>
+                            </td>
+                            <td class="py-4 px-6 text-xs text-gray-600">
+                                手機感測器, Google Sheets, GAS, IRIS 活動
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="px-2.5 py-1 rounded bg-teal-50 text-teal-700 text-xs font-medium inline-block">作業 2：簡易震動觀測活動</span>
+                            </td>
+                            <td class="py-4 px-6 text-xs text-gray-600">
+                                觀測震動數據、圖表、設計3題學生學習單
+                            </td>
+                        </tr>
+                        <!-- Week 3 -->
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="py-4 px-6">
+                                <span class="font-bold text-gray-900 block">W3</span>
+                                <span class="text-xs text-gray-500">7/31</span>
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="font-semibold text-gray-900 block">震央定位</span>
+                                <span class="text-xs text-gray-500">P-S 到時差、旅行時間與定位</span>
+                            </td>
+                            <td class="py-4 px-6 text-xs text-gray-600">
+                                IRIS 震央定位活動, Python, opencode, GitHub
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 text-xs font-medium inline-block">作業 3：震央定位教學範例</span>
+                            </td>
+                            <td class="py-4 px-6 text-xs text-gray-600">
+                                三測站到時差表與距離推估定位、設計提問
+                            </td>
+                        </tr>
+                        <!-- Week 4 -->
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="py-4 px-6">
+                                <span class="font-bold text-gray-900 block">W4</span>
+                                <span class="text-xs text-gray-500">8/7</span>
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="font-semibold text-gray-900 block">精讀理論與真實波形</span>
+                                <span class="text-xs text-gray-500">教科書第 4 章深讀、波形解讀</span>
+                            </td>
+                            <td class="py-4 px-6 text-xs text-gray-600">
+                                Intro. Seismology 第4章, jAmaSeis, HF Dataset
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="px-2.5 py-1 rounded bg-indigo-50 text-indigo-700 text-xs font-medium inline-block">作業 4：第 4 章導讀與波形小報告</span>
+                            </td>
+                            <td class="py-4 px-6 text-xs text-gray-600">
+                                中文精華導讀、標示真實波形 P/S 波、教學反思
+                            </td>
+                        </tr>
+                        <!-- Week 5 -->
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="py-4 px-6">
+                                <span class="font-bold text-gray-900 block">W5</span>
+                                <span class="text-xs text-gray-500">8/14</span>
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="font-semibold text-gray-900 block">場址效應與防災</span>
+                                <span class="text-xs text-gray-500">規模與震度辨析、建物與場址響應</span>
+                            </td>
+                            <td class="py-4 px-6 text-xs text-gray-600">
+                                IRIS Mag/Intensity, Vercel, GAS, 建物模擬
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="px-2.5 py-1 rounded bg-purple-50 text-purple-700 text-xs font-medium inline-block">作業 5：地震防災互動網頁初版</span>
+                            </td>
+                            <td class="py-4 px-6 text-xs text-gray-600">
+                                部署互動防災網頁、圖解場址效應與規模震度
+                            </td>
+                        </tr>
+                        <!-- Week 6 -->
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="py-4 px-6">
+                                <span class="font-bold text-gray-900 block">W6</span>
+                                <span class="text-xs text-gray-500">8/21</span>
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="font-semibold text-gray-900 block">成果與發表</span>
+                                <span class="text-xs text-gray-500">野外/微動觀測、教案整合與產出</span>
+                            </td>
+                            <td class="py-4 px-6 text-xs text-gray-600">
+                                手機感測、Teachable Moments, GitHub Pages
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="px-2.5 py-1 rounded bg-amber-50 text-amber-700 text-xs font-medium inline-block">作業 6：期末教學作品與發表</span>
+                            </td>
+                            <td class="py-4 px-6 text-xs text-gray-600">
+                                完整教案、數位展示連結、5-7 分鐘口頭簡報
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 3: Detailed Syllabus cards -->
+        <section id="weeks-detail" class="space-y-10">
+            <div class="border-b border-gray-200 pb-4">
+                <span class="text-xs uppercase font-bold tracking-widest text-emerald-600">Weekly Breakdown</span>
+                <h2 class="text-3xl font-black text-gray-900 mt-1">每週授課大綱與檢核指標</h2>
+                <p class="text-gray-500 mt-1 text-sm">請按順序瀏覽或執行您的學習挑戰：</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-8">
+                
+                <!-- Week 1 Detail Card -->
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden card-hover">
+                    <div class="bg-slate-800 text-white p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <span class="text-xs text-slate-300 font-bold uppercase tracking-wider">Week 1</span>
+                            <h3 class="text-xl font-bold mt-1">課程介紹、帳號申請、軟體安裝與工作流程建立</h3>
+                        </div>
+                        <div class="text-sm bg-slate-700/80 px-3 py-1 rounded border border-slate-600 self-start md:self-auto"><i class="fa-regular fa-calendar"></i> 2026 / 07 / 17</div>
+                    </div>
+                    <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <div class="lg:col-span-4 space-y-4">
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-2">本週定位</h4>
+                                <p class="text-sm text-gray-600 leading-relaxed bg-gray-50 p-3 rounded-lg border-l-4 border-slate-500">
+                                    第一週著重於建立後續 5 週使用的核心環境（帳號、環境與 AI 工具體驗），不安排正式 IRIS 大型實作，是一場紮實的工作坊。
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-2">學習要點</h4>
+                                <ul class="text-xs text-gray-600 space-y-1.5 list-disc list-inside">
+                                    <li>雲端與代碼託管平台設置</li>
+                                    <li>自動化試算表 Apps Script 測試</li>
+                                    <li>VS Code/Python/Git 環境確認</li>
+                                    <li>IRIS 教學資源庫導覽</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-8 space-y-6">
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-3">🛠️ 本週可檢核作業 (作業 1)：完成個人數位學習工作區</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
+                                        <h5 class="text-xs font-bold text-emerald-800 mb-2">繳交內容</h5>
+                                        <ul class="text-xs text-gray-700 space-y-1 list-disc list-inside">
+                                            <li>Google Drive / GitHub Repo 連結</li>
+                                            <li>Hugging Face & Vercel 帳號截圖</li>
+                                            <li>GAS 執行與表單收集測試網址</li>
+                                            <li>100–200 字個人教學學習目標</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                        <h5 class="text-xs font-bold text-gray-800 mb-2">檢核標準</h5>
+                                        <table class="w-full text-xxs text-gray-600">
+                                            <tr class="border-b border-gray-200"><td class="py-1 font-semibold">基本帳號</td><td class="py-1">Google/GitHub/Vercel完成3項</td></tr>
+                                            <tr class="border-b border-gray-200"><td class="py-1 font-semibold">GitHub</td><td class="py-1">有 Repo 且具 README.md</td></tr>
+                                            <tr><td class="py-1 font-semibold">GAS</td><td class="py-1">成功執行一段測試程式</td></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 2 Detail Card -->
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden card-hover">
+                    <div class="bg-teal-800 text-white p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <span class="text-xs text-teal-300 font-bold uppercase tracking-wider">Week 2</span>
+                            <h3 class="text-xl font-bold mt-1">地震儀、加速度、地震動與震度</h3>
+                        </div>
+                        <div class="text-sm bg-teal-700/80 px-3 py-1 rounded border border-teal-600 self-start md:self-auto"><i class="fa-regular fa-calendar"></i> 2026 / 07 / 24</div>
+                    </div>
+                    <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <div class="lg:col-span-4 space-y-4">
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-2">本週主題</h4>
+                                <p class="text-sm text-gray-600 leading-relaxed bg-gray-50 p-3 rounded-lg border-l-4 border-teal-500">
+                                    地震儀到底記錄了什麼？地面搖晃如何被量化？探究加速度與震度的內在關係。
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-2">教學活動</h4>
+                                <p class="text-xs text-gray-600 leading-relaxed">
+                                    使用 IRIS 的 ground-shaking 活動，讓學生透過三分量加速度計（手機、筆電或 USB 感測器）理解地面搖晃實測。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-8 space-y-6">
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-3">🛠️ 本週可檢核作業 (作業 2)：完成簡易震動觀測活動</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
+                                        <h5 class="text-xs font-bold text-emerald-800 mb-2">繳交內容</h5>
+                                        <ul class="text-xs text-gray-700 space-y-1 list-disc list-inside">
+                                            <li>手機/感測器震動原始紀錄與圖表</li>
+                                            <li>一份學生版活動學習單</li>
+                                            <li>一份教師版教學指引</li>
+                                            <li>200字心得：如何幫助學生理解震度</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                        <h5 class="text-xs font-bold text-gray-800 mb-2">檢核標準</h5>
+                                        <table class="w-full text-xxs text-gray-600">
+                                            <tr class="border-b border-gray-200"><td class="py-1 font-semibold">觀測數據</td><td class="py-1">含一筆實測震動資料及圖表</td></tr>
+                                            <tr class="border-b border-gray-200"><td class="py-1 font-semibold">學習單</td><td class="py-1">至少設計 3 題引導式提問</td></tr>
+                                            <tr><td class="py-1 font-semibold">教學說明</td><td class="py-1">釐清「體感搖晃」與「儀器測量」</td></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 3 Detail Card -->
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden card-hover">
+                    <div class="bg-emerald-850 text-white p-6 flex flex-col md:flex-row md:items-center justify-between gap-4" style="background-color: #064e3b;">
+                        <div>
+                            <span class="text-xs text-emerald-300 font-bold uppercase tracking-wider">Week 3</span>
+                            <h3 class="text-xl font-bold mt-1">P-S 到時差、旅行時間曲線與震央定位</h3>
+                        </div>
+                        <div class="text-sm bg-emerald-800/80 px-3 py-1 rounded border border-emerald-700 self-start md:self-auto"><i class="fa-regular fa-calendar"></i> 2026 / 07 / 31</div>
+                    </div>
+                    <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <div class="lg:col-span-4 space-y-4">
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-2">本週主題</h4>
+                                <p class="text-sm text-gray-600 leading-relaxed bg-gray-50 p-3 rounded-lg border-l-4 border-emerald-600">
+                                    只靠幾個測站的地震波波形紀錄，科學家們如何快速而精確地找到地震震央？
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-2">教學活動</h4>
+                                <p class="text-xs text-gray-600 leading-relaxed">
+                                    執行 IRIS 震央定位活動。學員將辨識 P 波與 S 波到時，利用走時曲線估算震央距，完成三圓定位。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-8 space-y-6">
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-3">🛠️ 本週可檢核作業 (作業 3)：完成震央定位教學範例</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
+                                        <h5 class="text-xs font-bold text-emerald-800 mb-2">繳交內容</h5>
+                                        <ul class="text-xs text-gray-700 space-y-1 list-disc list-inside">
+                                            <li>3個測站的P、S波到時與時差表</li>
+                                            <li>震央距推算與三站定位繪圖</li>
+                                            <li>GitHub 程式碼或 Google 試算表連結</li>
+                                            <li>一份探究式學生問題設計</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                        <h5 class="text-xs font-bold text-gray-800 mb-2">檢核標準</h5>
+                                        <table class="w-full text-xxs text-gray-600">
+                                            <tr class="border-b border-gray-200"><td class="py-1 font-semibold">到時標定</td><td class="py-1">正確標示三個不同測站資料</td></tr>
+                                            <tr class="border-b border-gray-200"><td class="py-1 font-semibold">定位製圖</td><td class="py-1">畫出三個求交點的定位圓</td></tr>
+                                            <tr><td class="py-1 font-semibold">探究思考</td><td class="py-1">引導學生理解「為什麼要三測站」</td></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 4 Detail Card -->
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden card-hover">
+                    <div class="bg-indigo-900 text-white p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <span class="text-xs text-indigo-300 font-bold uppercase tracking-wider">Week 4</span>
+                            <h3 class="text-xl font-bold mt-1">課本第 4 章精讀與真實地震波形資料</h3>
+                        </div>
+                        <div class="text-sm bg-indigo-800/80 px-3 py-1 rounded border border-indigo-700 self-start md:self-auto"><i class="fa-regular fa-calendar"></i> 2026 / 08 / 07</div>
+                    </div>
+                    <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <div class="lg:col-span-4 space-y-4">
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-2">本週主題</h4>
+                                <p class="text-sm text-gray-600 leading-relaxed bg-gray-50 p-3 rounded-lg border-l-4 border-indigo-500">
+                                    精讀《Introduction to Earthquake Seismology》第 4 章，並將深奧的波形理論連結實戰。
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-2">教學活動</h4>
+                                <p class="text-xs text-gray-600 leading-relaxed">
+                                    使用 jAmaSeis 或即時波形工具，搭配真實地震波形 Dataset，引導學員體驗「研究級」的波相觀察。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-8 space-y-6">
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-3">🛠️ 本週可檢核作業 (作業 4)：完成第 4 章導讀與波形分析小報告</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
+                                        <h5 class="text-xs font-bold text-emerald-800 mb-2">繳交內容</h5>
+                                        <ul class="text-xs text-gray-700 space-y-1 list-disc list-inside">
+                                            <li>一頁式第 4 章核心中文導讀</li>
+                                            <li>標註 P/S 波與其他重要波相的真實波形圖</li>
+                                            <li>整理三個可教給中小學生的概念</li>
+                                            <li>200字反思：區分中學與物理系教學重點</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                        <h5 class="text-xs font-bold text-gray-800 mb-2">檢核標準</h5>
+                                        <table class="w-full text-xxs text-gray-600">
+                                            <tr class="border-b border-gray-200"><td class="py-1 font-semibold">專業導讀</td><td class="py-1">用語精煉，完整整理第四章精華</td></tr>
+                                            <tr class="border-b border-gray-200"><td class="py-1 font-semibold">波形圖示</td><td class="py-1">清晰呈現並正確標示波相特徵</td></tr>
+                                            <tr><td class="py-1 font-semibold">分流設計</td><td class="py-1">清楚指出大學與中學教材如何分級</td></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 5 Detail Card -->
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden card-hover">
+                    <div class="bg-purple-900 text-white p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <span class="text-xs text-purple-300 font-bold uppercase tracking-wider">Week 5</span>
+                            <h3 class="text-xl font-bold mt-1">規模、震度、場址效應與建物反應</h3>
+                        </div>
+                        <div class="text-sm bg-purple-800/80 px-3 py-1 rounded border border-purple-700 self-start md:self-auto"><i class="fa-regular fa-calendar"></i> 2026 / 08 / 14</div>
+                    </div>
+                    <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <div class="lg:col-span-4 space-y-4">
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-2">本週主題</h4>
+                                <p class="text-sm text-gray-600 leading-relaxed bg-gray-50 p-3 rounded-lg border-l-4 border-purple-500">
+                                    澄清地震學與防災教育中最易混淆的問題：規模與震度。探討地質與建築如何放大搖晃。
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-2">教學活動</h4>
+                                <p class="text-xs text-gray-600 leading-relaxed">
+                                    結合 IRIS Magnitude and Intensity 模組，搭配 Vercel 與 GAS，設計具有情境互動的防災網頁。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-8 space-y-6">
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-3">🛠️ 本週可檢核作業 (作業 5)：完成地震防災互動網頁初版</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
+                                        <h5 class="text-xs font-bold text-emerald-800 mb-2">繳交內容</h5>
+                                        <ul class="text-xs text-gray-700 space-y-1 list-disc list-inside">
+                                            <li>互動網頁 URL (Vercel 或 GitHub Pages)</li>
+                                            <li>自製「規模 vs 震度」視覺比較圖</li>
+                                            <li>場址效應示意與學生互動測驗</li>
+                                            <li>200字防災教學實際應用場景說明</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                        <h5 class="text-xs font-bold text-gray-800 mb-2">檢核標準</h5>
+                                        <table class="w-full text-xxs text-gray-600">
+                                            <tr class="border-b border-gray-200"><td class="py-1 font-semibold">網頁功能</td><td class="py-1">可公開開啟且互動功能運作正常</td></tr>
+                                            <tr class="border-b border-gray-200"><td class="py-1 font-semibold">概念釐清</td><td class="py-1">清晰呈現規模與震度的科學差異</td></tr>
+                                            <tr><td class="py-1 font-semibold">場址解析</td><td class="py-1">說明地盤硬度對震波放大的影響</td></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 6 Detail Card -->
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden card-hover">
+                    <div class="bg-amber-900 text-white p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <span class="text-xs text-amber-300 font-bold uppercase tracking-wider">Week 6</span>
+                            <h3 class="text-xl font-bold mt-1">野外實驗、成果整合與教案發表</h3>
+                        </div>
+                        <div class="text-sm bg-amber-800/80 px-3 py-1 rounded border border-amber-700 self-start md:self-auto"><i class="fa-regular fa-calendar"></i> 2026 / 08 / 21</div>
+                    </div>
+                    <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <div class="lg:col-span-4 space-y-4">
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-2">本週主題</h4>
+                                <p class="text-sm text-gray-600 leading-relaxed bg-gray-50 p-3 rounded-lg border-l-4 border-amber-500">
+                                    進行野外/校園微動觀測實踐，將前 5 週學習積累整合為可供分享、演示的精品地球科學教案。
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-2">教學活動</h4>
+                                <p class="text-xs text-gray-600 leading-relaxed">
+                                    實地操作地震儀或手機感測器，結合 IRIS Teachable Moments，進行成果發表。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-8 space-y-6">
+                            <div>
+                                <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-3">🛠️ 本週可檢核作業 (作業 6)：完成期末教學作品與發表</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
+                                        <h5 class="text-xs font-bold text-emerald-800 mb-2">繳交內容</h5>
+                                        <ul class="text-xs text-gray-700 space-y-1 list-disc list-inside">
+                                            <li>完整教案設計 + 學生學習單 + 教師引導說明</li>
+                                            <li>線上數位作品成果連結</li>
+                                            <li>發表簡報與 300 字全期課程反思</li>
+                                            <li>現場 5–7 分鐘口頭或實機演示</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                        <h5 class="text-xs font-bold text-gray-800 mb-2">檢核標準</h5>
+                                        <table class="w-full text-xxs text-gray-600">
+                                            <tr class="border-b border-gray-200"><td class="py-1 font-semibold">概念融合</td><td class="py-1">科學概念精確無誤且合乎中學教學</td></tr>
+                                            <tr class="border-b border-gray-200"><td class="py-1 font-semibold">作品完整度</td><td class="py-1">數位教材可供第三者獨立線上使用</td></tr>
+                                            <tr><td class="py-1 font-semibold">課堂反思</td><td class="py-1">能論述此教案如何激發學生創造力</td></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 4: Daily process & Future Extensions -->
+        <section id="workflow" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Left Card: 4-Hour Standard Agenda -->
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200/80">
+                <span class="text-xs uppercase font-bold tracking-widest text-emerald-600">Daily Agenda</span>
+                <h2 class="text-2xl font-bold text-gray-900 mt-1 mb-6">每週 4 小時固定授課流程</h2>
+                <div class="space-y-4">
+                    <!-- Event 1 -->
+                    <div class="flex items-start gap-4">
+                        <span class="font-mono text-xs text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded font-bold shrink-0">00 ~ 20 min</span>
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-800">本週導入與時事分享</h4>
+                            <p class="text-xs text-gray-500 mt-1">引入台灣近期地震案例、即時新聞與本週學習核心目標。</p>
+                        </div>
+                    </div>
+                    <!-- Event 2 -->
+                    <div class="flex items-start gap-4">
+                        <span class="font-mono text-xs text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded font-bold shrink-0">20 ~ 70 min</span>
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-800">地震學／地球物理核心理論講授</h4>
+                            <p class="text-xs text-gray-500 mt-1">由淺入深解析物理模型與地質結構原理。</p>
+                        </div>
+                    </div>
+                    <!-- Event 3 -->
+                    <div class="flex items-start gap-4">
+                        <span class="font-mono text-xs text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded font-bold shrink-0">70 ~ 120 min</span>
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-800">IRIS 實用教學活動與案例實作</h4>
+                            <p class="text-xs text-gray-500 mt-1">動手操作經典的 IRIS 互動工具與數據資源。</p>
+                        </div>
+                    </div>
+                    <!-- Event 4 -->
+                    <div class="flex items-start gap-4">
+                        <span class="font-mono text-xs text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded font-bold shrink-0">120 ~ 200 min</span>
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-800">數位工具與 AI Agent 實作開發</h4>
+                            <p class="text-xs text-gray-500 mt-1">編寫腳本、設計網頁、利用 AI 輔助建立雲端展示頁面。</p>
+                        </div>
+                    </div>
+                    <!-- Event 5 -->
+                    <div class="flex items-start gap-4">
+                        <span class="font-mono text-xs text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded font-bold shrink-0">200 ~ 240 min</span>
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-800">作業說明與小組作品互評</h4>
+                            <p class="text-xs text-gray-500 mt-1">整理本週作品，說明下週研習任務與教學轉換想法。</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-xxs text-gray-400 mt-6 pt-4 border-t border-gray-100">
+                    💡 <strong>備註：</strong> 第一週為環境建置與工具熟悉工作坊，流程按「介紹與安裝」特化，不執行 IRIS 活動。
+                </p>
+            </div>
+
+            <!-- Right Card: University Extension Plan -->
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200/80 flex flex-col justify-between">
+                <div>
+                    <span class="text-xs uppercase font-bold tracking-widest text-emerald-600">University Path</span>
+                    <h2 class="text-2xl font-bold text-gray-900 mt-1 mb-4">開學後「地球物理學」課程銜接方案</h2>
+                    <p class="text-xs text-gray-500 leading-relaxed mb-6">
+                        暑期研習成果將無縫銜接並擴充，轉作大學部「地球物理學」課程的實務素材與進階學術專題：
+                    </p>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-gray-50 rounded-xl hover:bg-emerald-50/30 transition-colors">
+                            <h4 class="text-xs font-bold text-gray-800 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 數據分析工作流 (W1-W3)</h4>
+                            <p class="text-xxs text-gray-500 mt-1">將中學定位活動，升級為使用 Python 進行旅行時間不確定性分析與定位反演。</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-xl hover:bg-emerald-50/30 transition-colors">
+                            <h4 class="text-xs font-bold text-gray-800 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 地震工程與地盤參數 (W2 & W5)</h4>
+                            <p class="text-xxs text-gray-500 mt-1">由加速度觀測切入，延伸至 PGA、PGV 計算、場址放大效應與淺層地球物理構造研究。</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-xl hover:bg-emerald-50/30 transition-colors">
+                            <h4 class="text-xs font-bold text-gray-800 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 學術導讀與儀器觀測 (W4 & W6)</h4>
+                            <p class="text-xxs text-gray-500 mt-1">深化第四章波形理論，安排高精度專業地震儀器野外架設、微動量測與信號譜分析。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+                    <span class="text-xxs text-gray-400">高等地球物理學預備素材庫</span>
+                    <i class="fa-solid fa-arrow-right text-emerald-500 text-xs"></i>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Section 5: Grading & Statement -->
+        <section id="grading" class="bg-gradient-to-r from-earth-900 to-earth-950 text-white rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-md">
+            <!-- Background Accent Grid -->
+            <div class="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+            
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7">
+                    <span class="text-xs uppercase font-bold tracking-widest text-emerald-400">Grading Policy</span>
+                    <h2 class="text-3xl font-bold mt-2 mb-4">研習課程評量方式</h2>
+                    <p class="text-earth-200 text-sm leading-relaxed mb-6">
+                        評分著重於實踐、轉化與課堂互動。我們致力於讓每位教師不僅學到高階概念，還能將其具體重構，轉變為對學生有巨大吸引力的教案作品。
+                    </p>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="bg-white/10 p-4 rounded-xl border border-white/10">
+                            <span class="block text-2xl font-black text-emerald-300 font-mono">60%</span>
+                            <span class="text-xxs text-earth-300">每週可檢核作業 (每週10%)</span>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-xl border border-white/10">
+                            <span class="block text-2xl font-black text-emerald-300 font-mono">20%</span>
+                            <span class="text-xxs text-earth-300">課堂互動與技術實作</span>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-xl border border-white/10">
+                            <span class="block text-2xl font-black text-emerald-300 font-mono">20%</span>
+                            <span class="text-xxs text-earth-300">期末作品發表展示</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="w-12 h-12 bg-emerald-500/20 text-emerald-300 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                        <i class="fa-solid fa-quote-left"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">課程核心精神</h3>
+                    <p class="text-xs text-earth-200 leading-relaxed">
+                        「這門課的目標不是只教地震學，而是讓中小學教師親手把地震學、地球物理、真實資料、AI agent、雲端平台與互動教材整合起來，做出能帶回學校、啟發學生興趣與創造力的地球科學教學作品。」
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-earth-950 text-earth-400 py-12 border-t border-earth-900 text-xs px-4">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+                <p class="text-sm font-semibold text-white">臺北市立大學 暑期地科學術與應用研習</p>
+                <p class="mt-1 text-earth-500">© 2026 Taipei City University. Designed for Secondary Education Earth Science Teachers.</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="#positioning" class="hover:text-white transition-colors">課程介紹</a>
+                <span>•</span>
+                <a href="#summary-table" class="hover:text-white transition-colors">6 週計畫</a>
+                <span>•</span>
+                <a href="https://github.com" target="_blank" class="hover:text-white transition-colors flex items-center gap-1"><i class="fa-brands fa-github"></i> GitHub Pages 部署</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
