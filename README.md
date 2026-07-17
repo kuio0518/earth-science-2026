@@ -48,6 +48,7 @@
 - **Vercel** - 靜態網站部署
 - **Google Apps Script** - 自動化腳本
 - **Hugging Face** - AI 模型平台
+- **Mistral AI** - AI Agent 工具
 
 ---
 
@@ -163,6 +164,9 @@ earth-science-2026/
 - [GitHub 官方教學](https://guides.github.com/)
 - [Vercel 文件](https://vercel.com/docs)
 
+### AI 工具教學
+- [🎥 Mistral AI Agent 連結 GitHub 教學影片](https://youtu.be/O8aLVyeSYUE) - 完整的 AI Agent 與 GitHub 整合教學
+
 ### 推薦書籍
 - **Introduction to Earthquake Seismology** - 精密地震學教科書
 - **地震學導論** - 中文入門書籍
@@ -197,12 +201,6 @@ earth-science-2026/
 - **維護者**：北市大暑假地球科學課程團隊
 - **機構**：台北市立大學
 - **目標對象**：中小學地球科學教師
-
----
-
-## 🙏 致謝
-
-感謝所有參與本課程設計與開發的老師們，以及 IRIS 等機構提供的優質教育資源。
 
 ---
 
